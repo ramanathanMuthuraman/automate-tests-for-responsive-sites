@@ -1,16 +1,55 @@
 extends layout
 
 block content
-  .container-fluid
-  .panel.panel-default
-    .panel-heading Screen Visualiser
-    .panel-body
-      form#inputForm.navbar-form.navbar-left(role='search')
-        .form-group
-          input#inputFormGetURL.form-control(type='text', placeholder='Enter URL')
-        button#inputFormSubmit.btn.btn-default(type='button') Submit
-        .hideScroll
-            #htmlScreenshot.drop-zone
-                img(src='')
+
+  
+    nav.navbar.navbar-default.navbar-fixed-top.top-nav-collapse(role='navigation')
+      div.container
+        div.navbar-header.page-scroll
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand.page-scroll(href='#page-top') Automate tests for Responsive Sites
+        // Collect the nav links, forms, and other content for toggling
+        div.navbar-collapse.navbar-ex1-collapse.collapse.in(style='')
+          ul.nav.navbar-nav
+            // Hidden li included to remove active class from about link when scrolled up past about section
+            li.hidden
+                a.page-scroll(href='#page-top')
+            li.active
+              a.page-scroll(href='#upload') URL
+    
+    section#intro.intro-section.appl-section
+        div.container
+          div.row
+            div.col-lg-12
+              h1 Scrolling Nav
+              p
+                strong Usage Instructions:
+                | Make sure to include the
+                code scrolling-nav.js
+                | ,
+                code jquery.easing.min.js
+                | , and
+                code scrolling-nav.css
+                | files. To make a link smooth scroll to another section on the page, give the link the
+                code .page-scroll
+                | class and set the link target to a corresponding ID on the page.
+              a.btn.btn-default.page-scroll(href='#about') Click Me to Scroll Down!
+           
+    section#upload.services-section.appl-section
+      .container
+        .row
+          .col-lg-12
+            h1 URL
+            form#inputForm.navbar-form.navbar-left(role='search')
+                    .form-group
+                      input#inputFormGetURL.form-control(type='text', placeholder='Enter URL')
+                    button#inputFormSubmit.btn.btn-default(type='button') Submit
+                    .hideScroll
+                        #htmlScreenshot.drop-zone
+                            img(src='')    
            
 
