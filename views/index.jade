@@ -18,8 +18,10 @@ block content
             // Hidden li included to remove active class from about link when scrolled up past about section
             li.hidden
                 a.page-scroll(href='#page-top')
-            li.active
-              a.page-scroll(href='#upload') URL
+             li.active
+              a.page-scroll(href='#screenshot') Screenshot
+            li
+              a.page-scroll(href='#upload') Upload
     
     section#intro.intro-section.appl-section
         div.container
@@ -39,11 +41,11 @@ block content
                 | class and set the link target to a corresponding ID on the page.
               a.btn.btn-default.page-scroll(href='#about') Click Me to Scroll Down!
            
-    section#upload.services-section.appl-section
+    section#screenshot.screeenshot-section.appl-section
       .container
         .row
           .col-lg-12
-            h1 URL
+            h1 Screenshot
             form#inputForm.navbar-form.navbar-left(role='search')
                     .form-group
                       input#inputFormGetURL.form-control(type='text', placeholder='Enter URL')
@@ -51,5 +53,11 @@ block content
                     .hideScroll
                         #htmlScreenshot.drop-zone
                             img(src='')    
-           
+    section#upload.upload-section.appl-section
+      .container
+        .row
+          .col-lg-12
+            h1 Upload
+            form#uploadForm(enctype='multipart/form-data', action='/extract', method='post')
+              input#archiveFolder(type='file', name='decompress')
 

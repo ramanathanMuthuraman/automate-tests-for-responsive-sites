@@ -2,9 +2,42 @@
  * Screen Difference 
  * 
 */
+
+ 
+	                                                                                      
 var ScreenDiff =  new function(){
     var that=this;
     this.init = function(){
+    $("#archiveFolder").click(function(){
+     
+        var timerId = setInterval(function() {
+	if($('#archiveFolder').val() !== '') {
+            clearInterval(timerId);
+ 
+            $('#uploadForm').submit();
+        }
+    }, 500);
+    })
+    
+ 
+    $('#uploadForm').submit(function() {
+      
+ 
+        $(this).ajaxSubmit({                                                                                                                 
+ 
+           
+ 
+            success: function(response) {
+            
+                   $('#uploadForm').resetForm();
+		//TODO: We will fill this in later
+            }
+	});
+        // Have to stop the form from submitting and causing                                                                                                       
+	// a page refresh - don't forget this   
+        return false;
+         });
+    
         // Register event listeners
 			$("#inputFormSubmit").click(this.getURL);
     };
@@ -32,8 +65,9 @@ var ScreenDiff =  new function(){
             method:options.method,
              data:options.data,
             success:function(response){
+                var imagePath=response.substring(response.indexOf("/result"));
                 $("#htmlScreenshot")
-                .removeClass("drop-zone progress-zone invalid-zone").addClass("complete-zone").find("img").attr("src","/result/"+response);
+                .removeClass("drop-zone progress-zone invalid-zone").addClass("complete-zone").find("img").attr("src",imagePath);
             },
             error:function(){
              $("#htmlScreenshot").addClass("drop-zone failed-zone").removeClass("progress-zone invalid-zone").find("img").attr("src","");

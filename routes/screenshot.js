@@ -5,10 +5,27 @@ var fs      = require('fs');
 var router = express.Router();
  
 router.get('/', function(req, res) {
+
+    var screenshotPath = __outputPath + "screenshot/";
+ 
 var url_parts = url.parse(req.url, true);
 
      var screenShotURL = url_parts.query.url;
-var outputPath =__base+"public/result/";
+var deleteFolderRecursive = function(path) {
+  if( fs.existsSync(path) ) {
+    fs.readdirSync(path).forEach(function(file,index){
+      var curPath = path + "/" + file;
+      if(fs.lstatSync(curPath).isDirectory()) { // recurse
+        deleteFolderRecursive(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      } 
+    });
+   // fs.rmdirSync(path);
+  }
+        
+         saveScreenshot();
+};
 
     if (screenShotURL === undefined || screenShotURL == '') {
     res.writeHead(404, {'Content-Type': 'text/plain'});
@@ -19,13 +36,26 @@ var outputPath =__base+"public/result/";
        windowSize:{width:480,height:320},
        shotSize:{width:'all',height:'all'}
 };
-  
-      webshot(screenShotURL, outputPath+filename,options, function(err) {
+  function saveScreenshot(){
+      webshot(screenShotURL, screenshotPath +filename,options, function(err) {
              if (err) throw err
                /*send the filename as response*/
-      res.end(filename);
+      res.end(screenshotPath+filename);
 
 });
+  }
+    
+    if (fs.existsSync(screenshotPath) === false) {
+
+        fs.mkdirSync(screenshotPath);
+        saveScreenshot();
+    }
+    else{
+        
+        deleteFolderRecursive(screenshotPath);
+    
+        
+    }
  
   
 });

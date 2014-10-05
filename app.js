@@ -1,31 +1,47 @@
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var uid = require('uid');
+var multer  = require('multer');
+var fs      = require('fs');
 var routes = require('./routes/index');
 var screenshot = require('./routes/screenshot');
-
+var extract = require('./routes/extract');
 var app = express();
-global.__base = __dirname + '/';
+
+global.__path = __dirname + "/public/result/"
+var sessionKey = uid(10);
+app.use(cookieParser(sessionKey));
+app.use(session({
+secret : sessionKey,
+resave:true,
+saveUninitialized :true
+}));
+global.__outputPath = __path+sessionKey+"/";
+ fs.mkdirSync(global.__outputPath);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+app.use(multer({
+    dest: global.__outputPath
+}));
 // app.use(favicon(__dirname + '/public/img/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-app.use(cookieParser());
+//app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/screenshot', screenshot);
-
+app.use('/extract', extract);
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
