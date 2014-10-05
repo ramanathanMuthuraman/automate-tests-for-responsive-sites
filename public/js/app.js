@@ -1,83 +1,108 @@
 /**
- * Screen Difference 
- * 
-*/
+ * Screen Difference
+ *
+ */
+var ScreenDiff = new function() {
+    var that = this;
+    this.onScreenShotSuccess = function(response) {
+       
+        $("#htmlScreenshot")
+            .removeClass("drop-zone progress-zone invalid-zone").addClass("complete-zone").find("img").attr("src", response);
+    };
+    this.onScreenShotError = function(response) {
+        $("#htmlScreenshot").addClass("drop-zone failed-zone").removeClass("progress-zone invalid-zone").find("img").attr("src", "");
+    };
+    this.onScreenShotSubmit = function() {
+        $("#htmlScreenshot")
+            .addClass("drop-zone progress-zone").removeClass("complete-zone failed-zone invalid-zone").find("img").attr("src", "");
+    };
+    this.onScreenShotInvalidSubmission = function() {
+        $("#htmlScreenshot").addClass("drop-zone invalid-zone").removeClass("complete-zone failed-zone progress-zone").find("img").attr("src", "")
+    };
+    this.onUploadSuccess = function(response) {
+        var htmlString='';
+        for(var i=0;i<response.path.images.length;i++){
+                htmlString+="<div><p>"+response.path.images[i].name+"-"+response.path.images[i].width+"X"+response.path.images[i].height+"</p><img src='"+response.path.images[i].src+"'/></div>";
+        }
+        $("#uploadedImagePreview").html(htmlString);
+    };
 
- 
-	                                                                                      
-var ScreenDiff =  new function(){
-    var that=this;
-    this.init = function(){
-    $("#archiveFolder").click(function(){
-     
+    this.onUploadError = function() {
+
+    };
+    this.onUploadSubmit = function() {
+
+    };
+    this.isFileSelectedForUpload = function() {
         var timerId = setInterval(function() {
-	if($('#archiveFolder').val() !== '') {
-            clearInterval(timerId);
- 
-            $('#uploadForm').submit();
-        }
-    }, 500);
-    })
-    
- 
-    $('#uploadForm').submit(function() {
-      
- 
-        $(this).ajaxSubmit({                                                                                                                 
- 
-           
- 
-            success: function(response) {
-            
-                   $('#uploadForm').resetForm();
-		//TODO: We will fill this in later
+            if ($('#archiveFolder').val() !== '') {
+                clearInterval(timerId);
+                that.onUpload();
+
             }
-	});
-        // Have to stop the form from submitting and causing                                                                                                       
-	// a page refresh - don't forget this   
-        return false;
-         });
-    
+        }, 500);
+    };
+    this.init = function() {
+        $("#archiveFolder").click(this.isFileSelectedForUpload);
+
+
+
+
         // Register event listeners
-			$("#inputFormSubmit").click(this.getURL);
+        $("#inputFormSubmit").click(this.onScreenShot);
     };
-    this.getURL = function(){
-        var url = $.trim($("#inputFormGetURL").val());
-        if(url){
-        var options={
-            method:"GET",
-            data: {"url":url},
-            url:"screenshot"
+    this.onUpload = function() {
+        var options = {
+            method: "POST",
+            form: "#uploadForm",
+            url: "extract",
+            beforeSubmit: that.onUploadSubmit,
+            success: that.onUploadSuccess,
+            error: that.onUploadError
         };
-         $("#htmlScreenshot")
-         .addClass("drop-zone progress-zone").removeClass("complete-zone failed-zone invalid-zone").find("img").attr("src","");
         that.synch(options);
-        }
-        else{
-            $("#htmlScreenshot").addClass("drop-zone invalid-zone").removeClass("complete-zone failed-zone progress-zone").find("img").attr("src","")
-        }
-      
     };
-    this.synch = function(options)
-    {
-        return $.ajax({
-            url:options.url,
-            method:options.method,
-             data:options.data,
-            success:function(response){
-                var imagePath=response.substring(response.indexOf("/result"));
-                $("#htmlScreenshot")
-                .removeClass("drop-zone progress-zone invalid-zone").addClass("complete-zone").find("img").attr("src",imagePath);
-            },
-            error:function(){
-             $("#htmlScreenshot").addClass("drop-zone failed-zone").removeClass("progress-zone invalid-zone").find("img").attr("src","");
+    this.onScreenShot = function() {
+        var url = $.trim($("#inputFormGetURL").val());
+        if (url) {
+            var options = {
+                method: "GET",
+                form: "#inputForm",
+                data: {
+                    "url": url
+                },
+                url: "screenshot",
+                beforeSubmit: that.onScreenShotSubmit,
+                success: that.onScreenShotSuccess,
+                error: that.onScreenShotError
+            };
+
+            that.synch(options);
+        } else {
+            that.onScreenShotInvalidSubmission();
+
         }
+
+    };
+    this.synch = function(options) {
+        $(options.form).ajaxSubmit({
+            url: options.url,
+            type: options.method,
+            data: options.data,
+            beforeSubmit: function() {
+                options.beforeSubmit();
+            },
+            success: function(response) {
+                options.success(response);
+            },
+            error: function() {
+                options.error();
+            }
         });
     };
 };
 
-$(document).ready(function(){
+$(document).ready(function() {
 
     ScreenDiff.init();
 });
-

@@ -67,8 +67,10 @@ router.post('/', function(req, res) {
         //traverse the files
         walker.on("file", function(root, fileStats, next) {
             var image = {};
+             
             if(fileStats.name.indexOf(".zip")===-1){
-           
+                var imageBasePath=root.substring(root.indexOf("/result"));
+                image.src = imageBasePath+fileStats.name;
                 image.name = fileStats.name;
                 var dimensions = sizeOf(root + '/' + fileStats.name);
                 image.width = dimensions.width;

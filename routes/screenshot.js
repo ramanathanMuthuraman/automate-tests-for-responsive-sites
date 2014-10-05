@@ -40,7 +40,8 @@ var deleteFolderRecursive = function(path) {
       webshot(screenShotURL, screenshotPath +filename,options, function(err) {
              if (err) throw err
                /*send the filename as response*/
-      res.end(screenshotPath+filename);
+             var imageBasePath=screenshotPath.substring(screenshotPath.indexOf("/result"));
+      res.end(imageBasePath+filename);
 
 });
   }
