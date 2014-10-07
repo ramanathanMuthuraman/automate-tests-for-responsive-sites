@@ -20,11 +20,11 @@ var ScreenDiff = new function() {
         $("#htmlScreenshot").addClass("drop-zone invalid-zone").removeClass("complete-zone failed-zone progress-zone").find("img").attr("src", "")
     };
     this.onUploadSuccess = function(response) {
-        var htmlString='';
-        for(var i=0;i<response.path.images.length;i++){
-                htmlString+="<div><p>"+response.path.images[i].name+"-"+response.path.images[i].width+"X"+response.path.images[i].height+"</p><img src='"+response.path.images[i].src+"'/></div>";
-        }
-        $("#uploadedImagePreview").html(htmlString);
+        
+    
+      
+        var template = Handlebars.compile($("#VDimages-template").html());
+        $("#uploadedImagePreview").html(template(response.path));
         $('#uploadForm').resetForm();
     };
 

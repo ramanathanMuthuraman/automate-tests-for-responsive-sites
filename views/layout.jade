@@ -10,8 +10,17 @@ html(lang='en')
     block js
       script(src='http://localhost:35729/livereload.js')
       script(src='components/jquery/dist/jquery.min.js')
+      script(src='components/handlebars/handlebars.min.js')
       script(src='components/bootstrap/dist/js/bootstrap.min.js')
       script(src='components/jquery-form/jquery.form.js')
       script(src='js/app.js')
   body#page-top(data-spy='scroll', data-target='.navbar-fixed-top')
     block content
+    script#VDimages-template(type='text/x-handlebars-template')
+        div.VDimage
+          {{#each images}}
+          p {{name}} - {{width}} X {{height}}
+          img(src='{{src}}')
+          {{/each}}
+
+
