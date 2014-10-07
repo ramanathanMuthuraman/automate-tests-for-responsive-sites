@@ -14,6 +14,10 @@ var extract = require('./routes/extract');
 var app = express();
 
 global.__path = __dirname + "/public/result/"
+//create result folder if already not created
+if(!fs.existsSync(__path)) {
+fs.mkdirSync(__path);
+}
 var sessionKey = uid(10);
 app.use(cookieParser(sessionKey));
 app.use(session({
@@ -22,6 +26,7 @@ resave:true,
 saveUninitialized :true
 }));
 global.__outputPath = __path+sessionKey+"/";
+
  fs.mkdirSync(global.__outputPath);
 
 // view engine setup
