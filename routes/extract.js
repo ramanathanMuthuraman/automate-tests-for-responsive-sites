@@ -5,7 +5,8 @@ var unzip = require('unzip');
 var walk = require('walk');
 var router = express.Router();
 var sizeOf = require('image-size');
-
+var events = require('events');
+var utilities = require('./../helpers/utilities');
 /* GET users listing. */
 
 router.post('/', function(req, res) {
@@ -16,47 +17,38 @@ router.post('/', function(req, res) {
     var path = fileOptions.path;
     var aliasFileName = fileOptions.name;
     var fileName = fileOptions.originalname;
-    
-    
-    var deleteFolderRecursive = function(path) {
-  if( fs.existsSync(path) ) {
-    fs.readdirSync(path).forEach(function(file,index){
-      var curPath = path + "/" + file;
-      if(fs.lstatSync(curPath).isDirectory()) { // recurse
-        deleteFolderRecursive(curPath);
-      } else { // delete file
-        fs.unlinkSync(curPath);
-      } 
-    });
-   // fs.rmdirSync(path);
-  }
-        
-         extractFiles();
-};
-    var extractFiles = function(){
+    var that = this;
 
-    //move the zip file into the appropriate folder and rename it from alias name to the original name.
-     fs.renameSync(__outputPath + aliasFileName, VDPath + fileName, function(err) {
-        if (err) {
-            return err;
+
+    function extractFiles() {
+        //check if the file path exists
+        if (fs.existsSync(__outputPath + aliasFileName)) {
+            //move the zip file into the appropriate folder and rename it from alias name to the original name.
+            fs.renameSync(__outputPath + aliasFileName, VDPath + fileName, function(err) {
+                if (err) {
+                    return err;
+                }
+
+
+            });
+            if (extension === 'zip') {
+                //unzip the folder
+                fs.createReadStream(VDPath + fileName).pipe(unzip.Extract({
+                    path: VDPath
+                }).on('close', extractFilestoFolder));
+            } else {
+                extractFilestoFolder();
+            }
+
+
         }
-
-
-    });
-    if (extension === 'zip') {
-        //unzip the folder
-        fs.createReadStream(VDPath + fileName).pipe(unzip.Extract({
-            path: VDPath
-        }).on('close', extractFilestoFolder));
-    } else {
-        extractFilestoFolder();
-    }
-
-
-
     };
+    utilities.on('deleted', function() {
+
+        extractFiles();
+    });
     //write files in the destined folder
-    var extractFilestoFolder = function() {
+    function extractFilestoFolder() {
         //when unzip is complete send the image info to the user
         var path = {};
         //get the folder name 
@@ -67,18 +59,18 @@ router.post('/', function(req, res) {
         //traverse the files
         walker.on("file", function(root, fileStats, next) {
             var image = {};
-             
-            if(fileStats.name.indexOf(".zip")===-1){
-                var imageBasePath=root.substring(root.indexOf("/result"));
-                image.src = imageBasePath+fileStats.name;
+
+            if (fileStats.name.indexOf(".zip") === -1) {
+                var imageBasePath = root.substring(root.indexOf("/result"));
+                image.src = imageBasePath + fileStats.name;
                 image.name = fileStats.name;
                 var dimensions = sizeOf(root + '/' + fileStats.name);
                 image.width = dimensions.width;
                 image.height = dimensions.height;
                 images.push(image);
             }
-                next();
-          
+            next();
+
 
         });
 
@@ -92,24 +84,24 @@ router.post('/', function(req, res) {
 
 
     }
-    
-    
+
+
 
     //check whether the directory already exists else create new directory 
     if (fs.existsSync(VDPath) === false) {
 
         fs.mkdirSync(VDPath);
         extractFiles();
-    }
-    else{
-        
-        deleteFolderRecursive(VDPath);
-    
-        
-    }
-   
+    } else {
 
-    //moves the files to the new directory
+        //deleted the already existing files
+        utilities.deleteFolderRecursive(VDPath);
+
+
+    }
+
+
+    
 
 
 

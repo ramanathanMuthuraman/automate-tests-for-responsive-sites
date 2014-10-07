@@ -25,10 +25,11 @@ var ScreenDiff = new function() {
                 htmlString+="<div><p>"+response.path.images[i].name+"-"+response.path.images[i].width+"X"+response.path.images[i].height+"</p><img src='"+response.path.images[i].src+"'/></div>";
         }
         $("#uploadedImagePreview").html(htmlString);
+        $('#uploadForm').resetForm();
     };
 
     this.onUploadError = function() {
-
+     $('#uploadForm').resetForm();
     };
     this.onUploadSubmit = function() {
 
