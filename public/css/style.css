@@ -25,12 +25,9 @@ overflow: hidden;
 }
 .drop-zone {
 border: 10px dashed #ccc;
-color: #ccc;
-font-size: 32px;
 text-align: center;
-
-   text-align: center;
-   vertical-align: middle;
+text-align: center;
+vertical-align: middle;
 }
 /*for aligning the text at hte center - http://css-tricks.com/centering-in-the-unknown */
 .center-content:before{
@@ -40,13 +37,11 @@ text-align: center;
   vertical-align: middle;
   margin-right: -0.25em;
 }
-.drop-zone:after{
-    content : 'image here';
-}
+
 .progress-zone{
     background: url("../img/loader.gif") no-repeat center center;
  }
-#htmlScreenshot.complete-zone {
+.complete-zone {
 overflow:scroll; 
 width: 104%;
    
@@ -54,9 +49,7 @@ width: 104%;
 .failed-zone:after{
     content : 'Error'
 }
-.invalid-zone:after{
-    content : 'enter url'
-}
+
 .appl-section {
   
     padding-top: 150px;
@@ -67,6 +60,9 @@ width: 104%;
 .width-100-percent{
       width:100% !important;
 }
+.width-40-percent{
+      width:40% !important;
+}
 .height-100-prercent{
     
       height: 100%;
@@ -74,11 +70,18 @@ width: 104%;
 .height-60-prercent{
      height: 60%;
 }
+.height-40-prercent{
+    
+      height: 40%;
+}
 .content-section{
 margin-top:5%;
 margin-bottom:5%;    
 }
-.center-snapshot-input
+.center-input
 {
     margin: 35% auto;
+}
+.thumbnail-section{
+padding: 5%;
 }

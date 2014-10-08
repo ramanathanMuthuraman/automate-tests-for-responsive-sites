@@ -1,7 +1,9 @@
+script#htmlScreenshot-template(type='text/x-handlebars-template')
+        img(src='{{path}}')
+
 script#VDimages-template(type='text/x-handlebars-template')
-    div.VDimage.row
         {{#each images}}
-        div.col-sm-6.col-md-3
+        div.width-40-percent.height-40-prercent.pull-left.thumbnail-section
             p {{name}} - {{width}} X {{height}}
-            img.thumbnail.full-width.full-height(src='{{src}}')
+            img.width-100-percent.height-100-prercent(src='{{src}}')
         {{/each}}

@@ -16,26 +16,27 @@ var ScreenDiff = new function() {
         event.preventDefault();
     };
     this.onScreenShotSuccess = function(response) {
+        var template = Handlebars.compile($("#htmlScreenshot-template").html());
        
         $("#htmlScreenshot")
-            .removeClass("drop-zone progress-zone invalid-zone").addClass("complete-zone").find("img").attr("src", response);
+            .removeClass("drop-zone progress-zone invalid-zone").addClass("complete-zone").html(template(response));
     };
     this.onScreenShotError = function(response) {
-        $("#htmlScreenshot").addClass("drop-zone failed-zone").removeClass("progress-zone invalid-zone").find("img").attr("src", "");
+        $("#htmlScreenshot").addClass("drop-zone failed-zone").removeClass("progress-zone invalid-zone").html("Error");
     };
     this.onScreenShotSubmit = function() {
         $("#htmlScreenshot")
-            .addClass("drop-zone progress-zone").removeClass("complete-zone failed-zone invalid-zone").find("img").attr("src", "");
+            .addClass("drop-zone progress-zone").removeClass("complete-zone failed-zone invalid-zone").html("");
     };
     this.onScreenShotInvalidSubmission = function() {
-        $("#htmlScreenshot").addClass("drop-zone invalid-zone").removeClass("complete-zone failed-zone progress-zone").find("img").attr("src", "")
+        $("#htmlScreenshot").addClass("drop-zone invalid-zone").removeClass("complete-zone failed-zone progress-zone").html("invalid URL")
     };
     this.onUploadSuccess = function(response) {
         
     
       
         var template = Handlebars.compile($("#VDimages-template").html());
-        $("#uploadedImagePreview").html(template(response.path));
+        $("#VDImages").removeClass('center-content').addClass('complete-zone').html(template(response.path));
         $('#uploadForm').resetForm();
     };
 

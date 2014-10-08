@@ -43,27 +43,30 @@ block content
         .content-section.height-60-prercent.row
             .col-xs-6.height-100-prercent
                 form#inputForm.navbar-form.navbar-left.width-100-percent(role='search')
-                    .input-group.center-snapshot-input.width-100-percent
+                    .input-group.center-input.width-100-percent
                         .input-group-addon http://
                         input#inputFormGetURL.form-control(type='text', placeholder='Enter URL')
                         span.input-group-btn
                             button#inputFormSubmit.btn.btn-default(type='button') Submit
             .col-xs-6.height-100-prercent        
                 .hideScroll.height-100-prercent
-                    #htmlScreenshot.drop-zone.center-content
-                        img(src='')    
+                    #htmlScreenshot.drop-zone.center-content.height-100-prercent
+                        | image here
+                           
         .footer-section    
             button.btn.btn-primary.page-scroll(data-href='#upload') Next  
     section#upload.upload-section.appl-section.height-100-prercent
       .container.height-100-prercent
         .header-Upload
-            span.h1 Screenshot
+            span.h1 Upload
         .content-section.height-60-prercent.row
-            .col-xs-6
-                form#uploadForm(enctype='multipart/form-data', action='/extract', method='post')
-                  input#archiveFolder(type='file', name='decompress')
-            .col-xs-6
-                #uploadedImagePreview
-    
+            .col-xs-6.height-100-prercent
+                form#uploadForm.navbar-form.navbar-left.width-100-percent(enctype='multipart/form-data')
+                    .input-group.center-input.width-100-percent
+                        input#archiveFolder(type='file', name='decompress')
+            .col-xs-6.height-100-prercent  
+                .hideScroll.height-100-prercent
+                    #VDImages.drop-zone.center-content.height-100-prercent
+                        | image here
         .footer-section    
             button.btn.btn-primary.page-scroll Differentiate  
