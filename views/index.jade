@@ -25,9 +25,10 @@ block content
     
     section#intro.intro-section.appl-section.height-100-prercent
         .container.height-100-prercent
-            .content-section.height-80-prercent
+            .header-section
+            span.h1 Automate Responsive Tests
+            .content-section.height-60-prercent
               .row
-                div.col-lg-12
                   h1 Intro
                   p To get the difference
                   p Enter the URL of the web page
@@ -37,25 +38,27 @@ block content
            
     section#screenshot.screeenshot-section.appl-section.height-100-prercent
       .container.height-100-prercent
-        .content-section.height-80-prercent.row
-            h1 Screenshot
-            .col-xs-6
-                form#inputForm.navbar-form.navbar-left(role='search')
-                    .input-group
+        .header-section
+            span.h1 Screenshot
+        .content-section.height-60-prercent.row
+            .col-xs-6.height-100-prercent
+                form#inputForm.navbar-form.navbar-left.width-100-percent(role='search')
+                    .input-group.center-snapshot-input.width-100-percent
                         .input-group-addon http://
                         input#inputFormGetURL.form-control(type='text', placeholder='Enter URL')
                         span.input-group-btn
                             button#inputFormSubmit.btn.btn-default(type='button') Submit
             .col-xs-6.height-100-prercent        
-                .hideScroll.height-80-prercent
-                    #htmlScreenshot.drop-zone
+                .hideScroll.height-100-prercent
+                    #htmlScreenshot.drop-zone.center-content
                         img(src='')    
         .footer-section    
             button.btn.btn-primary.page-scroll(data-href='#upload') Next  
     section#upload.upload-section.appl-section.height-100-prercent
       .container.height-100-prercent
-        .content-section.height-80-prercent.row
-            h1 Upload
+        .header-Upload
+            span.h1 Screenshot
+        .content-section.height-60-prercent.row
             .col-xs-6
                 form#uploadForm(enctype='multipart/form-data', action='/extract', method='post')
                   input#archiveFolder(type='file', name='decompress')

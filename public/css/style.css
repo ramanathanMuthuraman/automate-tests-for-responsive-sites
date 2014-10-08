@@ -33,7 +33,7 @@ text-align: center;
    vertical-align: middle;
 }
 /*for aligning the text at hte center - http://css-tricks.com/centering-in-the-unknown */
-.drop-zone:before{
+.center-content:before{
   content: '';
   display: inline-block;
   height: 100%;
@@ -64,14 +64,21 @@ width: 104%;
     background: #fff;
 }
 
-.full-width{
-      width:100%;
+.width-100-percent{
+      width:100% !important;
 }
 .height-100-prercent{
     
       height: 100%;
 }
-.height-80-prercent{
-     height: 80%;
+.height-60-prercent{
+     height: 60%;
 }
-
+.content-section{
+margin-top:5%;
+margin-bottom:5%;    
+}
+.center-snapshot-input
+{
+    margin: 35% auto;
+}
