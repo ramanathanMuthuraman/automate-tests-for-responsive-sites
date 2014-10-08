@@ -14,13 +14,8 @@ html(lang='en')
       script(src='components/bootstrap/dist/js/bootstrap.min.js')
       script(src='components/jquery-form/jquery.form.js')
       script(src='js/app.js')
-  body#page-top(data-spy='scroll', data-target='.navbar-fixed-top')
+  body#page-top.overflow-hidden(data-spy='scroll', data-target='.navbar-fixed-top')
     block content
-    script#VDimages-template(type='text/x-handlebars-template')
-        div.VDimage
-          {{#each images}}
-          p {{name}} - {{width}} X {{height}}
-          img(src='{{src}}')
-          {{/each}}
+    include templates.jade
 
 

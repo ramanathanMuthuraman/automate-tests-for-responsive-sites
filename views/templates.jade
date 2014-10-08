@@ -1,0 +1,7 @@
+script#VDimages-template(type='text/x-handlebars-template')
+    div.VDimage.row
+        {{#each images}}
+        div.col-sm-6.col-md-3
+            p {{name}} - {{width}} X {{height}}
+            img.thumbnail.full-width.full-height(src='{{src}}')
+        {{/each}}

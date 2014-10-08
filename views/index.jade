@@ -18,39 +18,49 @@ block content
             // Hidden li included to remove active class from about link when scrolled up past about section
             li.hidden
                 a.page-scroll(href='#page-top')
-             li.active
+            li.active
               a.page-scroll(href='#screenshot') Screenshot
             li
               a.page-scroll(href='#upload') Upload
     
-    section#intro.intro-section.appl-section
-        div.container
-          div.row
-            div.col-lg-12
-              h1 Intro
-              p To get the difference
-              p Enter the URL of the web page
-              p upload the VD  
-                
+    section#intro.intro-section.appl-section.height-100-prercent
+        .container.height-100-prercent
+            .content-section.height-80-prercent
+              .row
+                div.col-lg-12
+                  h1 Intro
+                  p To get the difference
+                  p Enter the URL of the web page
+                  p upload the VD  
+            .footer-section    
+                button.btn.btn-primary.page-scroll(data-href='#screenshot') Start  
            
-    section#screenshot.screeenshot-section.appl-section
-      .container
-        .row
-          .col-lg-12
+    section#screenshot.screeenshot-section.appl-section.height-100-prercent
+      .container.height-100-prercent
+        .content-section.height-80-prercent.row
             h1 Screenshot
-            form#inputForm.navbar-form.navbar-left(role='search')
-                    .form-group
-                      input#inputFormGetURL.form-control(type='text', placeholder='Enter URL')
-                    button#inputFormSubmit.btn.btn-default(type='button') Submit
-                    .hideScroll
-                        #htmlScreenshot.drop-zone
-                            img(src='')    
-    section#upload.upload-section.appl-section
-      .container
-        .row
-          .col-lg-12
+            .col-xs-6
+                form#inputForm.navbar-form.navbar-left(role='search')
+                    .input-group
+                        .input-group-addon http://
+                        input#inputFormGetURL.form-control(type='text', placeholder='Enter URL')
+                        span.input-group-btn
+                            button#inputFormSubmit.btn.btn-default(type='button') Submit
+            .col-xs-6.height-100-prercent        
+                .hideScroll.height-80-prercent
+                    #htmlScreenshot.drop-zone
+                        img(src='')    
+        .footer-section    
+            button.btn.btn-primary.page-scroll(data-href='#upload') Next  
+    section#upload.upload-section.appl-section.height-100-prercent
+      .container.height-100-prercent
+        .content-section.height-80-prercent.row
             h1 Upload
-            form#uploadForm(enctype='multipart/form-data', action='/extract', method='post')
-              input#archiveFolder(type='file', name='decompress')
-            #uploadedImagePreview
-
+            .col-xs-6
+                form#uploadForm(enctype='multipart/form-data', action='/extract', method='post')
+                  input#archiveFolder(type='file', name='decompress')
+            .col-xs-6
+                #uploadedImagePreview
+    
+        .footer-section    
+            button.btn.btn-primary.page-scroll Differentiate  

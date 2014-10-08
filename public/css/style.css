@@ -8,23 +8,25 @@ body {
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
      width: 100%;
     height: 100%;
+
 }
 
-
+.overflow-hidden{
+overflow: hidden;
+}
 .hideScroll{
-  width: 400px;
-  height: 400px;
-  overflow: hidden;
+  width: 90%;
+
 }
 #htmlScreenshot{
   width: 100%;
   height:100%;
+
 }
 .drop-zone {
 border: 10px dashed #ccc;
 color: #ccc;
 font-size: 32px;
-line-height: 400px;
 text-align: center;
 
 }
@@ -37,7 +39,6 @@ text-align: center;
 #htmlScreenshot.complete-zone {
 overflow:scroll; 
 width: 104%;
-
    
 }
 .failed-zone:after{
@@ -47,9 +48,20 @@ width: 104%;
     content : 'enter url'
 }
 .appl-section {
-    height: 100%;
+  
     padding-top: 150px;
     text-align: center;
     background: #fff;
+}
+
+.full-width{
+      width:100%;
+}
+.height-100-prercent{
+    
+      height: 100%;
+}
+.height-80-prercent{
+     height: 80%;
 }
 

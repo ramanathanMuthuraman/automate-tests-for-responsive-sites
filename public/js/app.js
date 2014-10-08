@@ -4,6 +4,17 @@
  */
 var ScreenDiff = new function() {
     var that = this;
+    this.scrollPage=function(event){
+        
+          var $anchor = $(event.currentTarget);
+        var scrollTop = $anchor.data('href')||$anchor.attr('href');
+        if(scrollTop){
+        $('html, body').stop().animate({
+            scrollTop: $(scrollTop).offset().top
+        }, 1500);
+        }
+        event.preventDefault();
+    };
     this.onScreenShotSuccess = function(response) {
        
         $("#htmlScreenshot")
@@ -45,8 +56,8 @@ var ScreenDiff = new function() {
     };
     this.init = function() {
         $("#archiveFolder").click(this.isFileSelectedForUpload);
-
-
+        
+         $('.page-scroll').bind('click',this.scrollPage);
 
 
         // Register event listeners
