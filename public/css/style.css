@@ -29,9 +29,19 @@ color: #ccc;
 font-size: 32px;
 text-align: center;
 
+   text-align: center;
+   vertical-align: middle;
+}
+/*for aligning the text at hte center - http://css-tricks.com/centering-in-the-unknown */
+.drop-zone:before{
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em;
 }
 .drop-zone:after{
-    content : 'image here'
+    content : 'image here';
 }
 .progress-zone{
     background: url("../img/loader.gif") no-repeat center center;
