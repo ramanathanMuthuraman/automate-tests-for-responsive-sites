@@ -41,7 +41,7 @@ var deleteFolderRecursive = function(path) {
              if (err) throw err
                /*send the filename as response*/
              var imageBasePath=screenshotPath.substring(screenshotPath.indexOf("/result"));
-      res.end(imageBasePath+filename);
+      res.send({"path":imageBasePath+filename});
 
 });
   }
