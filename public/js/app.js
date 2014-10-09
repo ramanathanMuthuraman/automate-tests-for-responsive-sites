@@ -37,20 +37,24 @@ var ScreenDiff = new function() {
       
         var template = Handlebars.compile($("#VDimages-template").html());
         $("#VDImages").removeClass('center-content').addClass('complete-zone').html(template(response.path));
-        $('#uploadForm').resetForm();
+     
     };
 
     this.onUploadError = function() {
-     $('#uploadForm').resetForm();
+  
     };
     this.onUploadSubmit = function() {
 
     };
     this.isFileSelectedForUpload = function() {
+       
         var timerId = setInterval(function() {
-            if ($('#archiveFolder').val() !== '') {
+            var current_file_selected=$('#archiveFolder').val();
+            /*check for invalid input, empty string or selecting the same file*/
+            if (current_file_selected !== '' &&  current_file_selected !== that.prev_file_selected) {
                 clearInterval(timerId);
                 that.onUpload();
+                that.prev_file_selected = current_file_selected;
 
             }
         }, 500);

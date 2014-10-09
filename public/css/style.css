@@ -46,9 +46,7 @@ overflow:scroll;
 width: 104%;
    
 }
-.failed-zone:after{
-    content : 'Error'
-}
+
 
 .appl-section {
   
