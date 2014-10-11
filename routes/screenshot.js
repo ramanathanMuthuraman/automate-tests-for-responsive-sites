@@ -2,8 +2,9 @@ var express = require('express');
 var url = require('url');
 var webshot = require('webshot');
 var fs      = require('fs');
+var walk = require('walk');
 var router = express.Router();
- 
+
 router.get('/', function(req, res) {
 
     var screenshotPath = __outputPath + "screenshot/";
