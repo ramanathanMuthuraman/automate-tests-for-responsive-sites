@@ -46,6 +46,21 @@ var ScreenDiff = new function() {
             .addClass("drop-zone progress-zone").removeClass("complete-zone failed-zone invalid-zone").html("");
     };
     this.findDiff = function(){
+        $(".VD_image").each(function(i,val){
+                var VD_image_path = $(val).attr("src");
+                var screenshot_image_path = VD_image_path.replace("/VD/","/screenshot/")
+                 resemble(screenshot_image_path).compareTo(VD_image_path).onComplete(function(data){
+                   $("#diffImage").removeClass("center-content").addClass("complete-zone").html('<img src="'+data.getImageDataUrl()+'" />');
+                        console.log(data.misMatchPercentage,data.isSameDimensions);
+	/*
+	{
+	  misMatchPercentage : 100, // %
+	  isSameDimensions: true, // or false
+	  getImageDataUrl: function(){}
+	}
+	*/
+            });                     
+        });
         
     };
     this.isFileSelectedForUpload = function() {

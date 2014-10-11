@@ -1,9 +1,9 @@
 script#htmlScreenshot-template(type='text/x-handlebars-template')
-        img(src='{{path}}')
+        img.screenshot_image(src='{{path}}')
 
 script#VDimages-template(type='text/x-handlebars-template')
         {{#each images}}
         div.width-40-percent.height-40-prercent.pull-left.thumbnail-section
             p {{name}} - {{width}} X {{height}}
-            img.width-100-percent.height-100-prercent(src='{{src}}')
+            img.VD_image.width-100-percent.height-100-prercent(src='{{src}}')
         {{/each}}
