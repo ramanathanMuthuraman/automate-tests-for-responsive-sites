@@ -6,12 +6,14 @@ var walk = require('walk');
 var router = express.Router();
 var sizeOf = require('image-size');
 var events = require('events');
-var utilities = require('./../helpers/utilities');
+var webshot = require('webshot');
+
 /* GET users listing. */
 
 router.post('/', function(req, res) {
     var sessionKey = req.secret;
     var VDPath = __outputPath + "VD/";
+    var screenshotPath = __outputPath + "screenshot/";
     var fileOptions = req.files.decompress;
     var extension = fileOptions.extension;
     var path = fileOptions.path;
@@ -21,8 +23,7 @@ router.post('/', function(req, res) {
 
 
     function extractFiles() {
-        //check if the file path exists
-        if (fs.existsSync(__outputPath + aliasFileName)) {
+  
             //move the zip file into the appropriate folder and rename it from alias name to the original name.
             fs.renameSync(__outputPath + aliasFileName, VDPath + fileName, function(err) {
                 if (err) {
@@ -41,12 +42,25 @@ router.post('/', function(req, res) {
             }
 
 
-        }
+        
     };
-    utilities.on('deleted', function() {
-
-        extractFiles();
-    });
+  
+    //take multiple screenshots depending on the VD image(s) uploaded
+  function fetchScreenShot(image,next)
+    {
+        
+           
+            var options = {
+               windowSize:{width:image.width,height:image.height},
+               shotSize:{width:'all',height:'all'}
+        };
+             webshot(req.session.screenShotURL, screenshotPath +image.name,options, function(err) {
+             if (err) throw err
+             next();
+                 });
+       
+        
+    }
     //write files in the destined folder
     function extractFilestoFolder() {
         //when unzip is complete send the image info to the user
@@ -54,7 +68,13 @@ router.post('/', function(req, res) {
         //get the folder name 
         path.root = sessionKey;
         var images = [];
-
+     
+     
+        walk.walk(screenshotPath).on("file", function(root, fileStats, next) {
+              fs.unlinkSync(root + fileStats.name);
+              next();
+         }).on('end', function(err) { 
+              if (err) throw err;
         walker = walk.walk(VDPath);
         //traverse the files
         walker.on("file", function(root, fileStats, next) {
@@ -68,21 +88,29 @@ router.post('/', function(req, res) {
                 image.width = dimensions.width;
                 image.height = dimensions.height;
                 images.push(image);
+                fetchScreenShot(image,next);
             }
-            next();
-
-
-        });
-
+            else{
+                next();
+            }
+           
+                
+            
+            });
+         
+       
         walker.on('end', function() {
             path.images = images;
-            //after the file traversal is over send the info to UI
-            res.send({
-                "path": path
-            });
+         
+          
+             //send the response back to ui
+                 res.send({
+                "images": images
+                });
+            
         });
 
-
+});
     }
 
 
@@ -95,7 +123,13 @@ router.post('/', function(req, res) {
     } else {
 
         //deleted the already existing files
-        utilities.deleteFolderRecursive(VDPath);
+          walk.walk(VDPath).on("file", function(root, fileStats, next) {
+              fs.unlinkSync(root + fileStats.name);
+              next();
+         }).on('end', function() {      
+            extractFiles();
+          });
+      
 
 
     }

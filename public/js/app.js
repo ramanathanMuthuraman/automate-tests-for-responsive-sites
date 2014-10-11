@@ -32,19 +32,18 @@ var ScreenDiff = new function() {
         $("#htmlScreenshot").addClass("drop-zone invalid-zone").removeClass("complete-zone failed-zone progress-zone").html("invalid URL")
     };
     this.onUploadSuccess = function(response) {
-        
-    
-      
+       
         var template = Handlebars.compile($("#VDimages-template").html());
-        $("#VDImages").removeClass('center-content').addClass('complete-zone').html(template(response.path));
+        $("#VDImages").removeClass('center-content progress-zone').addClass('complete-zone').html(template(response));
      
     };
 
     this.onUploadError = function() {
-  
+        $("#VDImages").removeClass('center-content progress-zone').html("Error");
     };
     this.onUploadSubmit = function() {
-
+         $("#VDImages")
+            .addClass("drop-zone progress-zone").removeClass("complete-zone failed-zone invalid-zone").html("");
     };
     this.isFileSelectedForUpload = function() {
        

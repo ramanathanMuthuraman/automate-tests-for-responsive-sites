@@ -11,21 +11,7 @@ router.get('/', function(req, res) {
 var url_parts = url.parse(req.url, true);
 
      var screenShotURL = url_parts.query.url;
-var deleteFolderRecursive = function(path) {
-  if( fs.existsSync(path) ) {
-    fs.readdirSync(path).forEach(function(file,index){
-      var curPath = path + "/" + file;
-      if(fs.lstatSync(curPath).isDirectory()) { // recurse
-        deleteFolderRecursive(curPath);
-      } else { // delete file
-        fs.unlinkSync(curPath);
-      } 
-    });
-   // fs.rmdirSync(path);
-  }
-        
-         saveScreenshot();
-};
+
 
     if (screenShotURL === undefined || screenShotURL == '') {
     res.writeHead(404, {'Content-Type': 'text/plain'});
@@ -39,7 +25,9 @@ var deleteFolderRecursive = function(path) {
   function saveScreenshot(){
       webshot(screenShotURL, screenshotPath +filename,options, function(err) {
              if (err) throw err
-               /*send the filename as response*/
+               /*save the URL in session which can be taken later*/
+             req.session.screenShotURL = screenShotURL;
+             /*send the filename as response*/
              var imageBasePath=screenshotPath.substring(screenshotPath.indexOf("/result"));
       res.send({"path":imageBasePath+filename});
 
@@ -53,7 +41,13 @@ var deleteFolderRecursive = function(path) {
     }
     else{
         
-        deleteFolderRecursive(screenshotPath);
+         walk.walk(screenshotPath).on("file", function(root, fileStats, next) {
+              fs.unlinkSync(root + fileStats.name);
+              next();
+         }).on('end', function() {      
+            saveScreenshot();
+          });
+   
     
         
     }
