@@ -11,17 +11,19 @@ block content
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand.page-scroll(href='#page-top') Automate tests for Responsive Sites
+          a.navbar-brand.page-scroll(href='#intro') Automate tests for Responsive Sites
         // Collect the nav links, forms, and other content for toggling
         div.navbar-collapse.navbar-ex1-collapse.collapse.in(style='')
           ul.nav.navbar-nav
             // Hidden li included to remove active class from about link when scrolled up past about section
             li.hidden
-                a.page-scroll(href='#page-top')
+                a.page-scroll(href='#intro')
             li.active
               a.page-scroll(href='#screenshot') Screenshot
             li
               a.page-scroll(href='#upload') Upload
+            li
+              a.page-scroll(href='#difference') Difference
     
     section#intro.intro-section.appl-section.height-100-prercent
         .container.height-100-prercent
@@ -69,4 +71,12 @@ block content
                     #VDImages.drop-zone.center-content.height-100-prercent
                         | image here
         .footer-section    
-            button#differentiate.btn.btn-primary.page-scroll Differentiate  
+            button#differentiate.btn.btn-primary.page-scroll(data-href='#difference') Differentiate
+    section#difference.upload-section.appl-section.height-100-prercent
+      .container.height-100-prercent
+        .header-Upload
+            span.h1 Difference
+        .content-section.height-60-prercent.row
+          
+        .footer-section    
+            button.btn.btn-primary.page-scroll(data-href='#intro') Restart  

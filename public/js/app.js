@@ -45,6 +45,9 @@ var ScreenDiff = new function() {
          $("#VDImages")
             .addClass("drop-zone progress-zone").removeClass("complete-zone failed-zone invalid-zone").html("");
     };
+    this.findDiff = function(){
+        
+    };
     this.isFileSelectedForUpload = function() {
        
         var timerId = setInterval(function() {
@@ -66,6 +69,8 @@ var ScreenDiff = new function() {
         //prevent form submission through ways like enter key press etc.
         $("#inputForm").submit(function (e) {e.preventDefault();});
         $("#inputFormSubmit").click(this.onScreenShot);
+        $("#differentiate").click(this.findDiff);
+        
     };
     this.onUpload = function() {
         var options = {
