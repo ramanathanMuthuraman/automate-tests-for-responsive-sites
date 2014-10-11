@@ -68,8 +68,11 @@ router.post('/', function(req, res) {
         //get the folder name 
         path.root = sessionKey;
         var images = [];
-     
-     
+        //remove the zip file, from the VD folder
+        if (extension === 'zip') {
+            fs.unlinkSync(VDPath + fileName);
+        }
+     //remove the files in screenshot folder
         walk.walk(screenshotPath).on("file", function(root, fileStats, next) {
               fs.unlinkSync(root + fileStats.name);
               next();
