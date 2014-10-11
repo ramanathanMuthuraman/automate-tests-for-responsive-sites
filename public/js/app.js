@@ -59,12 +59,12 @@ var ScreenDiff = new function() {
         }, 500);
     };
     this.init = function() {
+          // Register event listeners
         $("#archiveFolder").click(this.isFileSelectedForUpload);
         
          $('.page-scroll').bind('click',this.scrollPage);
-
-
-        // Register event listeners
+        //prevent form submission through ways like enter key press etc.
+        $("#inputForm").submit(function (e) {e.preventDefault();});
         $("#inputFormSubmit").click(this.onScreenShot);
     };
     this.onUpload = function() {
