@@ -52,7 +52,7 @@ router.post('/', function(req, res) {
            
             var options = {
                windowSize:{width:image.width,height:image.height},
-               shotSize:{width:'all',height:'all'}
+               shotSize:{width:image.width,height:image.height}
         };
              webshot(req.session.screenShotURL, screenshotPath +image.name,options, function(err) {
              if (err) throw err

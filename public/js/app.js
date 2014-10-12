@@ -2,22 +2,36 @@
  * Screen Difference
  *
  */
+resemble.outputSettings({
+    errorColor: {
+        red: 255,
+        green: 196,
+        blue: 70
+    },
+    errorType: 'flat',
+    transparency: 0.7
+});
+
 var ScreenDiff = new function() {
     var that = this;
-    this.scrollPage=function(event){
-        
-          var $anchor = $(event.currentTarget);
-        var scrollTop = $anchor.data('href')||$anchor.attr('href');
-        if(scrollTop){
-        $('html, body').stop().animate({
-            scrollTop: $(scrollTop).offset().top
-        }, 1500);
+    this.scrollPage = function(event) {
+        var $anchor = $(event.currentTarget);
+        var scrollTop = $anchor.data('href') || $anchor.attr('href');
+        if (scrollTop) {
+            $('body').stop().animate({
+                scrollTop: $(scrollTop).offset().top
+            }, 1500, function() {
+                if (scrollTop === "#difference") {
+                    $("#vd_images_find_diff").html($("#VDImages").html())
+                }
+            });
+
         }
         event.preventDefault();
     };
     this.onScreenShotSuccess = function(response) {
         var template = Handlebars.compile($("#htmlScreenshot-template").html());
-       
+
         $("#htmlScreenshot")
             .removeClass("drop-zone progress-zone invalid-zone").addClass("complete-zone").html(template(response));
     };
@@ -32,43 +46,64 @@ var ScreenDiff = new function() {
         $("#htmlScreenshot").addClass("drop-zone invalid-zone").removeClass("complete-zone failed-zone progress-zone").html("invalid URL")
     };
     this.onUploadSuccess = function(response) {
-       
+
         var template = Handlebars.compile($("#VDimages-template").html());
         $("#VDImages").removeClass('center-content progress-zone').addClass('complete-zone').html(template(response));
-     
+
     };
 
     this.onUploadError = function() {
         $("#VDImages").removeClass('center-content progress-zone').html("Error");
     };
     this.onUploadSubmit = function() {
-         $("#VDImages")
+        $("#VDImages")
             .addClass("drop-zone progress-zone").removeClass("complete-zone failed-zone invalid-zone").html("");
     };
-    this.findDiff = function(){
-        $(".VD_image").each(function(i,val){
-                var VD_image_path = $(val).attr("src");
-                var screenshot_image_path = VD_image_path.replace("/VD/","/screenshot/")
-                 resemble(screenshot_image_path).compareTo(VD_image_path).onComplete(function(data){
-                   $("#diffImage").removeClass("center-content").addClass("complete-zone").html('<img src="'+data.getImageDataUrl()+'" />');
-                        console.log(data.misMatchPercentage,data.isSameDimensions);
-	/*
+    this.onImageDiffComplete = function(data) {
+        var diffImage = new Image();
+        diffImage.src = data.getImageDataUrl();
+
+        $("#diffImage").removeClass("center-content progress-zone").addClass("complete-zone").append(diffImage);
+        console.log(data.misMatchPercentage, data.isSameDimensions);
+
+    };
+    this.findDiff = function(e) {
+
+
+        $("#diffImage").empty();
+
+        $("#diffImage").addClass("drop-zone progress-zone").removeClass("complete-zone failed-zone invalid-zone").html("");
+
+        var VD_image_path = $(e.currentTarget).attr("src");
+
+        var screenshot_image_path = VD_image_path.replace("/VD/", "/screenshot/");
+
+
+
+
+        var resembleObject = resemble(VD_image_path).compareTo(screenshot_image_path).repaint().onComplete(that.onImageDiffComplete);
+
+
+
+
+        /*
 	{
 	  misMatchPercentage : 100, // %
 	  isSameDimensions: true, // or false
 	  getImageDataUrl: function(){}
 	}
 	*/
-            });                     
-        });
-        
+
+
+
+
     };
     this.isFileSelectedForUpload = function() {
-       
+
         var timerId = setInterval(function() {
-            var current_file_selected=$('#archiveFolder').val();
+            var current_file_selected = $('#archiveFolder').val();
             /*check for invalid input, empty string or selecting the same file*/
-            if (current_file_selected !== '' &&  current_file_selected !== that.prev_file_selected) {
+            if (current_file_selected !== '' && current_file_selected !== that.prev_file_selected) {
                 clearInterval(timerId);
                 that.onUpload();
                 that.prev_file_selected = current_file_selected;
@@ -77,15 +112,18 @@ var ScreenDiff = new function() {
         }, 500);
     };
     this.init = function() {
-          // Register event listeners
+        // Register event listeners
         $("#archiveFolder").click(this.isFileSelectedForUpload);
-        
-         $('.page-scroll').bind('click',this.scrollPage);
+
+        $('.page-scroll').bind('click', this.scrollPage);
         //prevent form submission through ways like enter key press etc.
-        $("#inputForm").submit(function (e) {e.preventDefault();});
+        $("#inputForm").submit(function(e) {
+            e.preventDefault();
+        });
         $("#inputFormSubmit").click(this.onScreenShot);
-        $("#differentiate").click(this.findDiff);
-        
+        $("body").delegate("#vd_images_find_diff img", "click", that.findDiff);
+        //   $("#differentiate").click(this.findDiff);
+
     };
     this.onUpload = function() {
         var options = {

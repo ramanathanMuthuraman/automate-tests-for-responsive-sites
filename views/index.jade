@@ -77,8 +77,11 @@ block content
         .header-Upload
             span.h1 Difference
         .content-section.height-60-prercent.row
-            .hideScroll.height-100-prercent
-                 #diffImage.drop-zone.center-content.height-100-prercent
-                    | Diff image here
+            .col-xs-6.height-100-prercent
+                #vd_images_find_diff
+            .col-xs-6.height-100-prercent 
+                .hideScroll.height-100-prercent
+                    #diffImage.drop-zone.center-content.height-100-prercent
+                        | Diff image here
         .footer-section    
             button.btn.btn-primary.page-scroll(data-href='#intro') Restart  
