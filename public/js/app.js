@@ -22,7 +22,7 @@ var ScreenDiff = new function() {
                 scrollTop: $(scrollTop).offset().top
             }, 1500, function() {
                 if (scrollTop === "#difference") {
-                    $("#vd_images_find_diff").html($("#VDImages").html())
+                    $("#vd_images_find_diff").html($("#VDImages").clone())
                 }
             });
 
@@ -62,9 +62,8 @@ var ScreenDiff = new function() {
     this.onImageDiffComplete = function(data) {
         var diffImage = new Image();
         diffImage.src = data.getImageDataUrl();
-
+        $("#diffImage").append("<p>Mismatch %:"+data.misMatchPercentage+"</p>")
         $("#diffImage").removeClass("center-content progress-zone").addClass("complete-zone").append(diffImage);
-        console.log(data.misMatchPercentage, data.isSameDimensions);
 
     };
     this.findDiff = function(e) {
@@ -77,8 +76,6 @@ var ScreenDiff = new function() {
         var VD_image_path = $(e.currentTarget).attr("src");
 
         var screenshot_image_path = VD_image_path.replace("/VD/", "/screenshot/");
-
-
 
 
         var resembleObject = resemble(VD_image_path).compareTo(screenshot_image_path).repaint().onComplete(that.onImageDiffComplete);
