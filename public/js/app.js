@@ -18,13 +18,9 @@ var ScreenDiff = new function() {
         var $anchor = $(event.currentTarget);
         var scrollTop = $anchor.data('href') || $anchor.attr('href');
         if (scrollTop) {
-            $('html').stop().animate({
+            $('html,body').stop().animate({
                 scrollTop: $(scrollTop).offset().top
-            }, 1500, function() {
-                if (scrollTop === "#difference") {
-                    $("#vd_images_find_diff").html($("#VDImages").clone())
-                }
-            });
+            }, 1500 );
 
         }
         event.preventDefault();
@@ -49,7 +45,7 @@ var ScreenDiff = new function() {
 
         var template = Handlebars.compile($("#VDimages-template").html());
         $("#VDImages").removeClass('center-content progress-zone').addClass('complete-zone').html(template(response));
-
+         $("#vd_images_find_diff").html($("#VDImages").clone())
     };
 
     this.onUploadError = function() {
@@ -60,11 +56,17 @@ var ScreenDiff = new function() {
             .addClass("drop-zone progress-zone").removeClass("complete-zone failed-zone invalid-zone").html("");
     };
     this.onImageDiffComplete = function(data) {
-        var diffImage = new Image();
-        diffImage.src = data.getImageDataUrl();
-        $("#diffImage").append("<p>Mismatch %:"+data.misMatchPercentage+"</p>")
-        $("#diffImage").removeClass("center-content progress-zone").addClass("complete-zone").append(diffImage);
-
+        if(data.misMatchPercentage === "0.00")
+        {
+            that.$selectedVDImage.trigger("click");
+        }
+        else
+        {
+            var diffImage = new Image();
+            diffImage.src = data.getImageDataUrl();
+            $("#diffImage").append("<p>Mismatch %:"+data.misMatchPercentage+"</p>")
+            $("#diffImage").removeClass("center-content progress-zone").addClass("complete-zone").append(diffImage);
+        }
     };
     this.findDiff = function(e) {
 
@@ -77,8 +79,8 @@ var ScreenDiff = new function() {
 
         var screenshot_image_path = VD_image_path.replace("/VD/", "/screenshot/");
 
-
-        var resembleObject = resemble(VD_image_path).compareTo(screenshot_image_path).repaint().onComplete(that.onImageDiffComplete);
+        that.$selectedVDImage = $(e.currentTarget);
+        var resembleObject = resemble(VD_image_path).compareTo(screenshot_image_path).onComplete(that.onImageDiffComplete);
 
 
 
