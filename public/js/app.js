@@ -58,7 +58,10 @@ var ScreenDiff = new function() {
     this.onImageDiffComplete = function(data) {
         if(data.misMatchPercentage === "0.00")
         {
-            that.$selectedVDImage.trigger("click");
+            setTimeout(function(){
+                    that.$selectedVDImage.trigger("click");
+            },1000)
+            
         }
         else
         {
