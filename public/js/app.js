@@ -86,6 +86,7 @@ var ScreenDiff = new function() {
 
         $("#diffImage").empty();
         $(".graph-thumb").css("height","0");
+        $("#match-percent").empty();
         $("#diffImage").addClass("drop-zone progress-zone").removeClass("complete-zone failed-zone invalid-zone").html("");
 
         var VD_image_path = $(e.currentTarget).attr("src");
