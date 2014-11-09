@@ -18,7 +18,7 @@ var ScreenDiff = new function() {
         var $anchor = $(event.currentTarget);
         var scrollTop = $anchor.data('href') || $anchor.attr('href');
         if (scrollTop) {
-            $('body').stop().animate({
+            $('html').stop().animate({
                 scrollTop: $(scrollTop).offset().top
             }, 1500, function() {
                 if (scrollTop === "#difference") {
