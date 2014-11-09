@@ -67,15 +67,25 @@ var ScreenDiff = new function() {
         {
             var diffImage = new Image();
             diffImage.src = data.getImageDataUrl();
-            $("#misMatch").html("<p>Mismatch %:"+data.misMatchPercentage+"</p>")
-            $("#diffImage").removeClass("center-content progress-zone").addClass("complete-zone").append(diffImage);
+            that.showSimilarity(100-data.misMatchPercentage,diffImage);
         }
     };
+    this.showSimilarity = function(matchPercentage,diffImage){
+
+        $("#match-percent").html("Match %:"+matchPercentage);
+        var graph_height = $(".match-graph").height()*(matchPercentage/100);
+       
+        $(".graph-thumb").stop().animate({
+            height:graph_height
+        },1000);
+        $("#diffImage").removeClass("center-content progress-zone").addClass("complete-zone").append(diffImage);
+
+    }
     this.findDiff = function(e) {
 
 
         $("#diffImage").empty();
-
+        $(".graph-thumb").css("height","0");
         $("#diffImage").addClass("drop-zone progress-zone").removeClass("complete-zone failed-zone invalid-zone").html("");
 
         var VD_image_path = $(e.currentTarget).attr("src");

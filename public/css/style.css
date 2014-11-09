@@ -94,3 +94,18 @@ margin-bottom:2%;
 .thumbnail-section{
 padding: 5%;
 }
+.graph-bar{
+
+  position: relative;
+  width: 40px;
+  margin: -10px auto 0 auto;
+}
+.graph-thumb{
+  position: absolute;
+  bottom: 0;
+  background: url("../img/animated-strip.gif") repeat-y 100% center;
+  width:40px;
+}  
+.title-text{
+  font-size: 30px;
+}
