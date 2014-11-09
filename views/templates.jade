@@ -3,7 +3,7 @@ script#htmlScreenshot-template(type='text/x-handlebars-template')
 
 script#VDimages-template(type='text/x-handlebars-template')
         {{#each images}}
-        div.width-40-percent.height-40-prercent.pull-left.thumbnail-section
+        div.col-xs-2.vd-img-wrapper
             p {{name}} - {{width}} X {{height}}
-            img.VD_image.width-100-percent.height-100-prercent(src='{{src}}')
+            img.VD_image.col-xs-12.thumbnail(src='{{src}}')
         {{/each}}

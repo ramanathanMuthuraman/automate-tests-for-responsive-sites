@@ -45,7 +45,7 @@ var ScreenDiff = new function() {
 
         var template = Handlebars.compile($("#VDimages-template").html());
         $("#VDImages").removeClass('center-content progress-zone').addClass('complete-zone').html(template(response));
-         $("#vd_images_find_diff").html($("#VDImages").clone())
+         $("#vd_images_find_diff").removeClass("center-content").html($("#VDImages").clone().find(".vd-img-wrapper").toggleClass("col-xs-2 col-xs-12"))
     };
 
     this.onUploadError = function() {
@@ -67,7 +67,7 @@ var ScreenDiff = new function() {
         {
             var diffImage = new Image();
             diffImage.src = data.getImageDataUrl();
-            $("#diffImage").append("<p>Mismatch %:"+data.misMatchPercentage+"</p>")
+            $("#misMatch").html("<p>Mismatch %:"+data.misMatchPercentage+"</p>")
             $("#diffImage").removeClass("center-content progress-zone").addClass("complete-zone").append(diffImage);
         }
     };

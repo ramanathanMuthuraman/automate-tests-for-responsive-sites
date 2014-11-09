@@ -43,15 +43,15 @@ block content
         .header-section
             span.h1 Screenshot
         .content-section.height-60-prercent.row
-            .col-xs-6.height-100-prercent
-                form#inputForm.navbar-form.navbar-left.width-100-percent(role='search')
-                    .input-group.center-input.width-100-percent
+            .col-xs-12.height-15-percent
+                form#inputForm(role='search')
+                    .input-group
                         .input-group-addon http://
                         input#inputFormGetURL.form-control(type='text', placeholder='Enter URL')
                         span.input-group-btn
                             button#inputFormSubmit.btn.btn-default(type='button') Submit
-            .col-xs-6.height-100-prercent        
-                .hideScroll.height-100-prercent
+            .col-xs-12.height-85-percent        
+                .height-100-prercent
                     #htmlScreenshot.drop-zone.center-content.height-100-prercent
                         | image here
                            
@@ -62,12 +62,12 @@ block content
         .header-Upload
             span.h1 Upload
         .content-section.height-60-prercent.row
-            .col-xs-6.height-100-prercent
-                form#uploadForm.navbar-form.navbar-left.width-100-percent(enctype='multipart/form-data')
-                    .input-group.center-input.width-100-percent
+            .col-xs-12.height-15-percent
+                form#uploadForm(enctype='multipart/form-data')
+                    .input-group
                         input#archiveFolder(type='file', name='decompress')
-            .col-xs-6.height-100-prercent  
-                .hideScroll.height-100-prercent
+            .col-xs-12.height-85-percent  
+                .height-100-prercent
                     #VDImages.drop-zone.center-content.height-100-prercent
                         | image here
         .footer-section    
@@ -76,13 +76,13 @@ block content
       .container.height-100-prercent
         .header-Upload
             span.h1 Difference
-        .content-section.height-60-prercent.row
-            .col-xs-6.height-100-prercent
-                .hideScroll.height-100-prercent
-                    #vd_images_find_diff.height-100-prercent
-            .col-xs-6.height-100-prercent 
-                .hideScroll.height-100-prercent
+        .content-section.height-85-percent.row
+            .col-xs-2.height-100-prercent
+                    #vd_images_find_diff.height-100-prercent.drop-zone.center-content
+                        | VD images here
+            .col-xs-2.height-100-prercent
+                    #misMatch       
+            .col-xs-8.height-100-prercent 
                     #diffImage.drop-zone.center-content.height-100-prercent
                         | Diff image here
-        .footer-section    
-            button.btn.btn-primary.page-scroll(data-href='#intro') Restart  
+
