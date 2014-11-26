@@ -142,6 +142,7 @@ var ScreenDiff = new function() {
         var options = {
             method: "POST",
             form: "#uploadForm",
+            dataType:"text/plain",
             url: "extract",
             beforeSubmit: that.onUploadSubmit,
             success: that.onUploadSuccess,
@@ -180,7 +181,7 @@ var ScreenDiff = new function() {
                 options.beforeSubmit();
             },
             success: function(response) {
-                options.success(response);
+                options.success(JSON.parse(response));
             },
             error: function() {
                 options.error();
