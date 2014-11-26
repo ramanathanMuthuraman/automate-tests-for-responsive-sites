@@ -181,7 +181,7 @@ var ScreenDiff = new function() {
                 options.beforeSubmit();
             },
             success: function(response) {
-                options.success(JSON.parse(response));
+                options.success(response);
             },
             error: function() {
                 options.error();
