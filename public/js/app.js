@@ -178,12 +178,12 @@ var ScreenDiff = new function() {
             url: options.url,
             type: options.method,
             data: options.data,
-            dataType:"text/plain",
+            dataType:"json",
             beforeSubmit: function() {
                 options.beforeSubmit();
             },
             success: function(response) {
-                options.success(JSON.parse(response));
+                options.success(response);
             },
             error: function() {
                 options.error();
